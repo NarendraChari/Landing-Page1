@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delicious Bites</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: #f3f3f3;
+            overflow-x: hidden;
+        }
+        header {
+            position: fixed;
+            width: 100%;
+            background: #333;
+            color: white;
+            padding: 15px;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.5s ease;
+        }
+        header.slide-back {
+            transform: translateY(-100%);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 150px 20px 20px; /* Increased padding-top to add space */
+            max-width: 800px;
+            margin: auto;
+        }
+        .menu-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .menu-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .menu-item p {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 5px 0 0;
+        }
+        .menu-details {
+            padding: 10px;
+            text-align: center;
+            background: white;
+            margin: 10px auto;
+            width: 60%;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .review, .contact {
+            background: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .review h3, .contact h3 {
+            text-align: center;
+        }
+        .review p, .contact p {
+            font-size: 14px;
+            text-align: left;
+        }
+        .slider-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .slider-btn:hover {
+            background: #555;
+        }
+        /* Boy pulling animation */
+        .boy {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 100px;
+            background-image: url('boy.png'); /* Replace with actual image */
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 1s ease; /* Adding transition to opacity and transform */
+        }
+        .boy-pulling {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-150px); /* Pulling upwards */
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <nav>
+            <h1 id="restaurant-name">Delicious <span>Bites</span></h1>
+            <ul>
+                <li><a href="#home" onclick="animateHome()">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="menu" class="menu-grid">
+        <div class="menu-item" onclick="showDetails(0)">
+            <img src="pasta.jpeg" alt="Pasta Primavera">
+            <p>₹349</p>
+        </div>
+        <div class="menu-item" onclick="showDetails(1)">
+            <img src="grilled salmon.jpeg" alt="Grilled Salmon">
+            <p>₹599</p>
+        </div>
+        <div class="menu-item" onclick="showDetails(2)">
+            <img src="cb.jpeg" alt="Cheeseburger">
+            <p>₹249</p>
+        </div>
+        <div class="menu-item" onclick="showDetails(3)">
+            <img src="mp.jpeg" alt="Margherita Pizza">
+            <p>₹399</p>
+        </div>
+        <div class="menu-item" onclick="showDetails(4)">
+            <img src="sp.jpeg" alt="Sushi Platter">
+            <p>₹899</p>
+        </div>
+        <div class="menu-item" onclick="showDetails(5)">
+            <img src="cs.jpeg" alt="Caesar Salad">
+            <p>₹199</p>
+        </div>
+        <div class="menu-item" onclick="showDetails(6)">
+            <img src="cl.jpeg" alt="Chocolate Lava Cake">
+            <p>₹299</p>
+        </div>
+    </section>
+    
+    <div class="menu-details" id="menu-details">
+        <h2 id="dish-name">Click on an item to see details</h2>
+        <p id="dish-description"></p>
+        <p id="dish-price"></p>
+    </div>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="review">
+        <h3>Customer Reviews</h3>
+        <div>
+            <p><strong>John Doe</strong>: "Amazing food! Loved the pasta and pizza. Highly recommend."</p>
+            <p><strong>Jane Smith</strong>: "Great ambiance and friendly staff. The grilled salmon was excellent!"</p>
+            <p><strong>Mike Johnson</strong>: "Affordable prices and delicious burgers. Will come back!"</p>
+            <p><strong>Emily Davis</strong>: "A wonderful dining experience. The chocolate lava cake is to die for!"</p>
+            <p><strong>Sarah Lee</strong>: "Best sushi in town! Fresh and tasty."</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h3>Contact Us</h3>
+        <p><strong>Email:</strong> contact@deliciousbites.com</p>
+        <p><strong>Phone:</strong> +1 234 567 890</p>
+        <form>
+            <label for="name">Name</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="message">Message</label><br>
+            <textarea id="message" name="message" required></textarea><br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+    <div class="slider-btn" onclick="scrollPage()">↓</div>
+
+    <!-- Boy Image -->
+    <div id="boy" class="boy"></div>
+
+    <script>
+        const menuItems = [
+            {name: "Pasta Primavera", desc: "A delicious mix of fresh vegetables and pasta tossed in a light olive oil sauce.", price: "₹349"},
+            {name: "Grilled Salmon", desc: "Perfectly grilled salmon fillet served with lemon butter sauce.", price: "₹599"},
+            {name: "Cheeseburger", desc: "Juicy beef patty topped with cheddar cheese and fresh veggies.", price: "₹249"},
+            {name: "Margherita Pizza", desc: "Classic pizza with fresh mozzarella, basil, and tomato sauce.", price: "₹399"},
+            {name: "Sushi Platter", desc: "A variety of fresh sushi rolls served with soy sauce and wasabi.", price: "₹899"},
+            {name: "Caesar Salad", desc: "Crisp romaine lettuce with Caesar dressing and parmesan cheese.", price: "₹199"},
+            {name: "Chocolate Lava Cake", desc: "Warm chocolate cake with a gooey molten center.", price: "₹299"}
+        ];
+
+        function showDetails(index) {
+            document.getElementById("dish-name").textContent = menuItems[index].name;
+            document.getElementById("dish-description").textContent = menuItems[index].desc;
+            document.getElementById("dish-price").textContent = menuItems[index].price;
+        }
+
+        function scrollPage() {
+            window.scrollBy(0, window.innerHeight);
+        }
+
+        function animateHome() {
+            const header = document.getElementById('header');
+            const boy = document.getElementById('boy');
+            
+            // Show the boy pulling the page
+            boy.classList.add('boy-pulling');
+            setTimeout(() => {
+                // Scroll to the top after the pulling animation
+                window.scrollTo(0, 0);
+                header.classList.add('slide-back');
+                setTimeout(() => {
+                    header.classList.remove('slide-back');
+                }, 500);
+            }, 1000);  // After 1 second (the pulling animation duration)
+        }
+    </script>
+</body>
+</html>
